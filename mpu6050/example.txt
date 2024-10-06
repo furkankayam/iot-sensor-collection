@@ -1,0 +1,109 @@
+#include <Wire.h>
+
+#define MPU 0x68
+
+int ivmeX, ivmeY, ivmeZ, IsI, GyX, GyY, GyZ;  // Noktalı virgül eklendi
+
+void setup() {
+  Wire.begin();
+  Wire.beginTransmission(MPU);
+  Wire.write(0x6B);
+  Wire.write(0);
+  Wire.endTransmission(true);
+  Serial.begin(9600);
+}
+
+void loop() {
+  verileriOku();
+
+  Serial.print("ivmeX = ");
+  Serial.println(ivmeX);
+  Serial.print("ivmeY = ");
+  Serial.println(ivmeY);
+  Serial.print("ivmeZ = ");
+  Serial.println(ivmeZ);
+  Serial.print("sicaklik = ");
+  Serial.println(IsI / 340.00 + 36.53);
+  Serial.print("GyroX = ");
+  Serial.println(GyX);
+  Serial.print("GyroY = ");
+  Serial.println(GyY);
+  Serial.print("GyroZ = ");
+  Serial.println(GyZ);  // Burada GyZ'nin tanımlı olduğundan emin olun
+}
+
+void verileriOku() {
+  Wire.beginTransmission(MPU);
+  Wire.write(0x3B);
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU, 14, true);
+
+  ivmeX = Wire.read() << 8 | Wire.read();
+  ivmeY = Wire.read() << 8 | Wire.read();
+  ivmeZ = Wire.read() << 8 | Wire.read();
+  IsI = Wire.read() << 8 | Wire.read();
+  GyX = Wire.read() << 8 | Wire.read();
+  GyY = Wire.read() << 8 | Wire.read();
+  GyZ = Wire.read() << 8 | Wire.read();
+}
+
+
+
+
+
+
+
+--------------------------------------------
+
+
+
+
+
+#include <MPU6050_tockn.h>
+#include <Wire.h>
+MPU6050 mpu6050(Wire);
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  mpu6050.begin();
+  mpu6050.calcGyroOffsets(true);
+}
+void loop() {
+  mpu6050.update();
+  Serial.print(" X-ekseni : ");
+  Serial.println(mpu6050.getAngleX());
+  Serial.print("\ Y-ekseni : ");
+  Serial.println(mpu6050.getAngleY());
+  Serial.print("\ Z-ekseni : ");
+  Serial.println(mpu6050.getAngleZ());
+}
+
+
+
+
+
+
+
+-----------------------------------------------
+
+
+
+
+
+
+#include <MPU6050_tockn.h>
+#include <Wire.h>
+MPU6050 mpu6050(Wire);
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  mpu6050.begin();
+  mpu6050.calcGyroOffsets(true);
+}
+void loop() {
+  mpu6050.update();
+  Serial.print("\ Z-ekseni : ");
+  Serial.println(mpu6050.getAngleZ());
+}

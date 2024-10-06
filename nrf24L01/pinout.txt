@@ -1,0 +1,7 @@
+CSN --> 8
+CE --> 9
+SCK --> 13
+MOSI --> 11
+MISO --> 12
+VCC --> 5V
+GND
