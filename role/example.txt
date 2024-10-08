@@ -1,0 +1,3 @@
+NO --> Normally Open, Normalde acik
+NC --> Normally Close, Normalde kapali, !!ilk acilista 1
+COM --> Common, Ortak nokta, Her iki NO ve NC com ile calisir
