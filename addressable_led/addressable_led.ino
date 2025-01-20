@@ -3,32 +3,43 @@
     Version: 1.0
 */
 
+// LED LIBRARY
 #include <FastLED.h>
 
+// LED PINS HEAD //
 #define LED_PIN 7
 #define NUM_LEDS 144
-
 CRGB leds[NUM_LEDS];
+// LED PINS TAIL //
 
-void chargeEffect() {
-  int delayMs = 50;  // Efektin hızını ayarlamak için bu değeri değiştirebilirsiniz
-  int ledsPerStep = 5;  // Her adımda 5 LED kayacak
+/*____________________________________________*/
+/*_________________ LED HEAD _________________*/
+/*____________________________________________*/
 
-  for (int i = 0; i < NUM_LEDS; i += ledsPerStep) {
-    // Kırmızıdan turuncuya geçiş yapmak için RGB değerlerini değiştiriyoruz
-    for (int j = 0; j < ledsPerStep && i + j < NUM_LEDS; j++) {
-      int redValue = 255;  // Kırmızı sabit kalır
-      int greenValue = map(i + j, 0, NUM_LEDS - 1, 0, 165);  // Yeşil değerini artırıyoruz
-      CRGB color = CRGB(redValue, greenValue, 0);  // Mavi sabit 0 kalır
-
-      leds[i + j] = color;  // Her bir LED'e renk atıyoruz
-    }
-
+void chargingEffect() {
+  for (int i = 0; i < 255; i++) {
+    CRGB color = CRGB(0, 255 - i, 0);
+    fill_solid(leds, NUM_LEDS, color);
     FastLED.show();
-    delay(delayMs);
+  }
+  for (int i = 255; i >= 0; i--) {
+    CRGB color = CRGB(0, 255 - i, 0);
+    fill_solid(leds, NUM_LEDS, color);
+    FastLED.show();
   }
 }
-
+void movingToChargeStationEffect() {
+  for (int i = 0; i < 150; i++) {
+    CRGB color = CRGB(255, i, 0);
+    fill_solid(leds, NUM_LEDS, color);
+    FastLED.show();
+  }
+  for (int i = 150; i >= 0; i--) {
+    CRGB color = CRGB(255, i, 0);
+    fill_solid(leds, NUM_LEDS, color);
+    FastLED.show();
+  }
+}
 void loadEffect() {
   CRGB color = CRGB(0, 0, 255);
   int delayMs = 10;
@@ -42,9 +53,21 @@ void loadEffect() {
   fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
   FastLED.show();
 }
-
-void fillEffect() {
-  CRGB color = CRGB(128, 128, 0);
+void unloadEffect() {
+  CRGB color = CRGB(0, 0, 255);
+  int delayMs = 10;
+  int mid = NUM_LEDS / 2;
+  for (int i = mid - 1; i >= 0; i--) {
+    leds[i] = color;
+    leds[NUM_LEDS - 1 - i] = color;
+    FastLED.show();
+    delay(delayMs);
+  }
+  fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+  FastLED.show();
+}
+void rightFillEffect() {
+  CRGB color = CRGB(255, 165, 0);
   int delayMs = 1; 
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i] = color;
@@ -55,18 +78,24 @@ void fillEffect() {
   FastLED.show();
   delay(delayMs);
 }
-
-void yellowEffect() {
-  CRGB color = CRGB(255, 255, 0);
-  int delayMs = 1;
-  for (int i = 0; i < NUM_LEDS; i++) {
+void leftFillEffect() {
+  CRGB color = CRGB(255, 165, 0);
+  int delayMs = 1; 
+  for (int i = NUM_LEDS - 1; i >= 0; i--) {
     leds[i] = color;
+    FastLED.show();
+    delay(delayMs);
   }
+  fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
   FastLED.show();
   delay(delayMs);
 }
-
-void redEffect() {
+void goEffect() {
+  CRGB color = CRGB(255, 255, 100);
+  fill_solid(leds, NUM_LEDS, color);
+  FastLED.show();
+}
+void stopEffect() {
   CRGB color = CRGB(255, 0, 0);
   int delayMs = 250;
   fill_solid(leds, NUM_LEDS, color);
@@ -77,18 +106,25 @@ void redEffect() {
   delay(delayMs);
 }
 
+/*____________________________________________*/
+/*_________________ LED TAIL _________________*/
+/*____________________________________________*/
 
 void setup() {
+  // LED SETUP HEAD //
   FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+  // LED SETUP TAIL //
 }
 
 void loop() {
-  fillEffect();
+  //rightFillEffect();
+  //leftFillEffect();
   //delay(1000);
-  //redEffect();
+  //stopEffect();
   //delay(1000);
   //loadEffect();
   //unloadEffect();
-  //chargeEffect();
-  //yellowEffect();
+  //movingToChargeStationEffect();
+  chargingEffect();
+  //goEffect();
 }

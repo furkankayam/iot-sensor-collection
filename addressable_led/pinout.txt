@@ -1,3 +1,9 @@
+-------------------
+
 red -> 5v
 white -> gnd
 green -> 7
+
+-------------------
+
+- No  common ground
