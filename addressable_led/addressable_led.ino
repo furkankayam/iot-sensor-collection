@@ -1,15 +1,17 @@
 /*
     Author: Mehmet Furkan KAYA
-    Version: 1.0
+    Version: 2.0
 */
 
 // LED LIBRARY
 #include <FastLED.h>
 
 // LED PINS HEAD //
-#define LED_PIN 7
-#define NUM_LEDS 144
-CRGB leds[NUM_LEDS];
+#define LED_PIN1 7
+#define LED_PIN2 8
+#define NUM_LEDS1 144
+CRGB leds1[NUM_LEDS1];
+CRGB leds2[NUM_LEDS1];
 // LED PINS TAIL //
 
 /*____________________________________________*/
@@ -17,91 +19,110 @@ CRGB leds[NUM_LEDS];
 /*____________________________________________*/
 
 void chargingEffect() {
-  for (int i = 0; i < 255; i++) {
-    CRGB color = CRGB(0, 255 - i, 0);
-    fill_solid(leds, NUM_LEDS, color);
+  for (int i = 0; i < 100; i++) {
+    CRGB color = CRGB(0, 100 - i, 0);
+    fill_solid(leds1, NUM_LEDS1, color);
+    fill_solid(leds2, NUM_LEDS1, color);
     FastLED.show();
   }
-  for (int i = 255; i >= 0; i--) {
-    CRGB color = CRGB(0, 255 - i, 0);
-    fill_solid(leds, NUM_LEDS, color);
+  for (int i = 100; i >= 0; i--) {
+    CRGB color = CRGB(0, 100 - i, 0);
+    fill_solid(leds1, NUM_LEDS1, color);
+    fill_solid(leds2, NUM_LEDS1, color);
     FastLED.show();
   }
 }
 void movingToChargeStationEffect() {
-  for (int i = 0; i < 150; i++) {
+  for (int i = 0; i < 50; i++) {
     CRGB color = CRGB(255, i, 0);
-    fill_solid(leds, NUM_LEDS, color);
+    fill_solid(leds1, NUM_LEDS1, color);
+    fill_solid(leds2, NUM_LEDS1, color);
     FastLED.show();
   }
-  for (int i = 150; i >= 0; i--) {
+  for (int i = 50; i >= 0; i--) {
     CRGB color = CRGB(255, i, 0);
-    fill_solid(leds, NUM_LEDS, color);
+    fill_solid(leds1, NUM_LEDS1, color);
+    fill_solid(leds2, NUM_LEDS1, color);
     FastLED.show();
   }
 }
 void loadEffect() {
   CRGB color = CRGB(0, 0, 255);
   int delayMs = 10;
-  int mid = NUM_LEDS / 2;
+  int mid = NUM_LEDS1 / 2;
   for (int i = 0; i < mid; i++) {
-    if (i < mid) leds[i] = color;
-    if (NUM_LEDS - 1 - i >= mid) leds[NUM_LEDS - 1 - i] = color;
+    if (i < mid) {
+      leds1[i] = color;
+      leds2[i] = color;
+    }
+    if (NUM_LEDS1 - 1 - i >= mid) {
+      leds1[NUM_LEDS1 - 1 - i] = color;
+      leds2[NUM_LEDS1 - 1 - i] = color;
+    }
     FastLED.show();
     delay(delayMs);
   }
-  fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+  fill_solid(leds1, NUM_LEDS1, CRGB(0, 0, 0));
+  fill_solid(leds2, NUM_LEDS1, CRGB(0, 0, 0));
   FastLED.show();
 }
 void unloadEffect() {
   CRGB color = CRGB(0, 0, 255);
   int delayMs = 10;
-  int mid = NUM_LEDS / 2;
+  int mid = NUM_LEDS1 / 2;
   for (int i = mid - 1; i >= 0; i--) {
-    leds[i] = color;
-    leds[NUM_LEDS - 1 - i] = color;
+    leds1[i] = color;
+    leds2[i] = color;
+    leds1[NUM_LEDS1 - 1 - i] = color;
+    leds2[NUM_LEDS1 - 1 - i] = color;
     FastLED.show();
     delay(delayMs);
   }
-  fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+  fill_solid(leds1, NUM_LEDS1, CRGB(0, 0, 0));
+  fill_solid(leds2, NUM_LEDS1, CRGB(0, 0, 0));
   FastLED.show();
 }
 void rightFillEffect() {
   CRGB color = CRGB(255, 165, 0);
   int delayMs = 1; 
-  for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = color;
+  for (int i = NUM_LEDS1 - 1; i >= 0; i--) {
+    fill_solid(leds2, NUM_LEDS1, CRGB(255, 255, 100));
+    leds1[i] = color;
     FastLED.show();
     delay(delayMs);
   }
-  fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+  fill_solid(leds1, NUM_LEDS1, CRGB(0, 0, 0));
   FastLED.show();
   delay(delayMs);
 }
 void leftFillEffect() {
   CRGB color = CRGB(255, 165, 0);
   int delayMs = 1; 
-  for (int i = NUM_LEDS - 1; i >= 0; i--) {
-    leds[i] = color;
+  for (int i = NUM_LEDS1 - 1; i >= 0; i--) {
+    fill_solid(leds1, NUM_LEDS1, CRGB(255, 255, 100));
+    leds2[i] = color;
     FastLED.show();
     delay(delayMs);
   }
-  fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+  fill_solid(leds2, NUM_LEDS1, CRGB(0, 0, 0));
   FastLED.show();
   delay(delayMs);
 }
 void goEffect() {
   CRGB color = CRGB(255, 255, 100);
-  fill_solid(leds, NUM_LEDS, color);
+  fill_solid(leds1, NUM_LEDS1, color);
+  fill_solid(leds2, NUM_LEDS1, color);
   FastLED.show();
 }
 void stopEffect() {
   CRGB color = CRGB(255, 0, 0);
   int delayMs = 250;
-  fill_solid(leds, NUM_LEDS, color);
+  fill_solid(leds1, NUM_LEDS1, color);
+  fill_solid(leds2, NUM_LEDS1, color);
   FastLED.show();
   delay(delayMs);
-  fill_solid(leds, NUM_LEDS, CRGB(0, 0, 0));
+  fill_solid(leds1, NUM_LEDS1, CRGB(0, 0, 0));
+  fill_solid(leds2, NUM_LEDS1, CRGB(0, 0, 0));
   FastLED.show();
   delay(delayMs);
 }
@@ -112,12 +133,13 @@ void stopEffect() {
 
 void setup() {
   // LED SETUP HEAD //
-  FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812, LED_PIN1, GRB>(leds1, NUM_LEDS1);
+  FastLED.addLeds<WS2812, LED_PIN2, GRB>(leds2, NUM_LEDS1);
   // LED SETUP TAIL //
 }
 
 void loop() {
-  //rightFillEffect();
+  rightFillEffect();
   //leftFillEffect();
   //delay(1000);
   //stopEffect();
@@ -125,6 +147,6 @@ void loop() {
   //loadEffect();
   //unloadEffect();
   //movingToChargeStationEffect();
-  chargingEffect();
+  //chargingEffect();
   //goEffect();
 }
