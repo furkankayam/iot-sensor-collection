@@ -1,13 +1,17 @@
 # DigiSpark ATtiny85
 
+![image3](./image3.jpg)
+
+---
+
 ```txt
 https://raw.githubusercontent.com/digistump/arduino-boards-index/master/package_digistump_index.json
 ```
 
 ---
 
-![image](./image1.png)
+![image1](./image1.png)
 
 ---
 
-![image](./image2.png)
+![image2](./image2.png)
